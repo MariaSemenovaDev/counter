@@ -8,9 +8,10 @@ type CounterType = {
     maxValue: number;
     tempStartValue: number; // Новый пропс
     tempMaxValue: number;  // Новый пропс
+    changes: boolean
 }
 
-export const Counter = ({startValue, maxValue, tempStartValue, tempMaxValue}:CounterType) => {
+export const Counter = ({startValue, maxValue, tempStartValue, tempMaxValue, changes}:CounterType) => {
 
     const [count, setCount] = useState(startValue);
 
@@ -30,18 +31,18 @@ export const Counter = ({startValue, maxValue, tempStartValue, tempMaxValue}:Cou
         setCount(startValue);
     }
 
+
     return (
         <div className={s.blockWrapper}>
 
             <div className={s.counter}>
                 {(startValue || maxValue) < 0 || maxValue <= startValue || hasError
                     ? <div className={s.title}>Incorrect value!</div>
-                    : <div className={s.title}>{count}</div>
+                    : <div className={`${s.title} ${count === maxValue ? s.endNumber : ""}`}>{ changes ? count : "enter values and press 'set'" }</div>
                 }
 
 
             </div>
-
             <div  className={s.btnWrapper}>
                 <Button
                     callBack={handlerIncrement}

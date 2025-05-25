@@ -1,25 +1,35 @@
 import './App.css'
 import {Counter} from "./components/Counter.tsx";
 import {SetCounter} from "./components/SetCounter.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 function App() {
 
-    const initialValues = {
-        startValue: 0,
-        maxValue: 5,
-    }
+    // Загружаем начальные значения из localStorage
+    const loadSettings = () => {
+        const saved = localStorage.getItem("counterSettings");
+        return saved ? JSON.parse(saved) : { startValue: 0, maxValue: 5 };
+    };
 
-    const [settings, setSettings] = useState(initialValues);
+    const [settings, setSettings] = useState(loadSettings);
+    const [changes, setChanges] = useState(false);
+    const [tempValues, setTempValues] = useState(loadSettings); // состояние временного значения
 
-    const [tempValues, setTempValues] = useState(initialValues); // состояние временного значения
+
+    // Сохраняем настройки при их изменении
+    useEffect(() => {
+        localStorage.setItem("counterSettings", JSON.stringify(settings));
+    }, [settings]);
 
     //устанавливаем стартовые значения
     const setValuesHandler = (newStartValue: number, newMaxValue: number) => {
-        setSettings({startValue: newStartValue, maxValue: newMaxValue})
+        const newSettings = {startValue: newStartValue, maxValue: newMaxValue};
+        setSettings(newSettings);
+        setTempValues(newSettings);
+        setChanges(true);
+    };
 
-        setTempValues({startValue: newStartValue, maxValue: newMaxValue}); // Обновляем временные значения
-    }
+
 
     return (
         <div>
@@ -36,6 +46,8 @@ function App() {
 
                          tempStartValue={tempValues.startValue} // Передаём временные значения
                          tempMaxValue={tempValues.maxValue}
+
+                         changes={changes}
                 />
             </div>
         </div>

@@ -60,8 +60,9 @@ export const SetCounter = (props : SetCounterType) => {
                            value={min}
                            onKeyDown={onKeyDownHandler}
                            onChange={onChangeMinHandler}
-                           className={s.input}
-                        // className={`input ${max < 0 || min >= max ? 'error' : ''}`}
+                           className={
+                            `${s.input} ${min < 0 || min === max ? s.errorInput : ""}`
+                    }
 
                     />
                 </label>
@@ -71,15 +72,19 @@ export const SetCounter = (props : SetCounterType) => {
                            value={max}
                            onKeyDown={onKeyDownHandler}
                            onChange={onChangeMaxHandler}
-                           className={s.input}
-                        // className={`input ${min < 0 ? 'error' : ''}`}
+                           className={
+                               `${s.input} ${max < 0 || min === max ? s.errorInput : ""}`
+                           }
                     />
                 </label>
             </div>
             <div className={''}>
-                <Button onClick={setBtnHandler}>Set</Button>
+                <Button onClick={setBtnHandler}
+isDisabled={(min || max) < 0 || max <= min}
+
+                >Set</Button>
             </div>
         </div>
-
+    // {/*(startValue || maxValue) < 0 || maxValue <= startValue || hasError*/}
     );
 };
