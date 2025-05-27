@@ -2,6 +2,7 @@ import './App.css'
 import {Counter} from "./components/Counter.tsx";
 import {SetCounter} from "./components/SetCounter.tsx";
 import {useEffect, useState} from "react";
+import {Button} from "./components/Button.tsx";
 
 function App() {
 
@@ -14,6 +15,8 @@ function App() {
     const [settings, setSettings] = useState(loadSettings);
     const [changes, setChanges] = useState(false);
     const [tempValues, setTempValues] = useState(loadSettings); // состояние временного значения
+
+    const [set, setSet] = useState(false);
 
 
     // Сохраняем настройки при их изменении
@@ -29,26 +32,37 @@ function App() {
         setChanges(true);
     };
 
-
+const setsetsetHandler = () => {
+    setSet(!set);
+}
 
     return (
         <div>
             <h1>counter</h1>
             <div className="displayWrapper">
-                <SetCounter
-                    setValues={setValuesHandler}
-                    updateMin={settings.startValue}
-                    updateMax={settings.maxValue}
-                    onInputChange={setTempValues} // Передаём функцию для обновления tempValues
-                />
-                <Counter startValue={settings.startValue}
-                         maxValue={settings.maxValue}
+                
+                {set
 
-                         tempStartValue={tempValues.startValue} // Передаём временные значения
-                         tempMaxValue={tempValues.maxValue}
+                    ?                 <SetCounter
+                        setValues={setValuesHandler}
+                        updateMin={settings.startValue}
+                        updateMax={settings.maxValue}
+                        onInputChange={setTempValues} // Передаём функцию для обновления tempValues
+                    />
 
-                         changes={changes}
-                />
+                    :                <Counter startValue={settings.startValue}
+                                              maxValue={settings.maxValue}
+
+                                              tempStartValue={tempValues.startValue} // Передаём временные значения
+                                              tempMaxValue={tempValues.maxValue}
+
+                                              changes={changes}
+                    />
+
+                }
+
+
+                <Button onClick={setsetsetHandler}>setsetset</Button>
             </div>
         </div>
 
