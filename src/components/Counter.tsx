@@ -9,9 +9,11 @@ type CounterType = {
     tempStartValue: number; // Новый пропс
     tempMaxValue: number;  // Новый пропс
     changes: boolean
+
 }
 
-export const Counter = ({startValue, maxValue, tempStartValue, tempMaxValue, changes}:CounterType) => {
+export const Counter = (
+    {startValue, maxValue, tempStartValue, tempMaxValue, changes}:CounterType) => {
 
     const [count, setCount] = useState(startValue);
 
@@ -55,6 +57,9 @@ export const Counter = ({startValue, maxValue, tempStartValue, tempMaxValue, cha
                 >
                     reset
                 </Button>
+
+
+
             </div>
         </div>
     );
